@@ -3,11 +3,17 @@
 ## GPG 
 
 1/ Create a couple of private/public key
+
 2/ Exchange your public key with your neightbour
+
 3/ Send him a signed text
+
 4/ verify the signature sent by your neightbour
+
 5/ Send him an encrypted text
+
 6/ Read the encrypted text sent by your neightbour
+
 7/ Sign your neughtbour key
 
 Symetric signatures : 
@@ -19,7 +25,9 @@ Symetric signatures :
 ## Hashing
 
 0/ Create a SHA-1 hash for the file toto.txt with the content you like
+
 1/ Give the file and the SH1-1 to your neightbour
+
 2/ Was the text file corrupted during transfer ?
 
 ## Scripting (easy)
