@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+
+        <title>Atelier MiNET - iptables</title>
+
+        <meta name="author" content="Anthony Verez, Alexis Mousset">
+
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="iptable_files/reveal.css">
+        <link rel="stylesheet" href="iptable_files/default.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="iptable_files/zenburn.css">
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+            document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script><link rel="stylesheet" href="iptable_files/paper.css" type="text/css" media="print">
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body style="transition: -webkit-transform 0.8s ease 0s;">
+
+        <div class="reveal default center" data-transition-speed="default" data-background-transition="default">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+
+<div class="slides" style="width: 960px; height: 700px; transform: translate(-50%, -50%) scale(1) translate(50%, 50%);">
+<section style="top: -348px; display: block;" class="present">
+<h3 data-fragment-index="0">Hashing and encryption</h3>
+</section>
+<section style="top: -348px; display: block;" class="present">
+<h3 data-fragment-index="0">Hashing</h3>
+</section>
+<section style="top: -348px; display: block;" class="present">
+<pre><code>
+sha1sum test.txt > test.txt.shA1
+sha1sum -c test.txt.sha1
+
+# md5sum, sha256sum, sha512sum, etc...
+</code></pre>
+</section>
+<section style="top: -348px; display: block;" class="present">
+<h3 data-fragment-index="0">GPG</h3>
+</section>
+
+
+<section style="top: -348px; display: block;" class="present">
+<h3 data-fragment-index="0">History</h3>
+<ul>
+<li>Developed by Werner Koch</li>
+<li>Version 1.0.0 September 7, 1999</li>
+<li>Port to Microsoft Windows in 2000</li>
+<li>GnuPG is a system compliant to the OpenPGP standard</li>
+<li>On February 7, 2014, GnuPG crowdfunding effort closed, raising 36,732 €</li>
+</ul>
+</section>
+
+<section style="top: -348px; display: block;" class="present">
+<img style="max-height: none; max-width: none;" src="iptable_files/symetric.png">
+</section>
+
+<section style="top: -348px; display: block;" class="present">
+<img style="max-height: none; max-width: none;" src="iptable_files/asymmetrickey.gif">
+</section>
+
+
+<section style="top: -348px; display: block;" class="present">
+<h3 data-fragment-index="0">Generating keys</h3>
+<pre><code>
+gpg --gen-key
+</code></pre>
+</section>
+
+
+<section style="top: -348px; display: block;" class="present">
+<h3 data-fragment-index="0">Sharing public key</h3>
+<pre><code>
+benwa@horizon ~ % gpg --list-secret-keys --keyid-format LONG
+/home/benwa/.gnupg/pubring.kbx
+------------------------------
+sec   rsa2048/FD4650F19548FD91 2015-11-05 [SC]
+      80ABB3A988C9769CCA7E2D1DFD4650F19548FD91
+uid                [  ultime ] Tellier Benoit <benwa@minet.net>
+ssb   rsa2048/5A6C2B0C70EDF42E 2015-11-05 [E]
+
+
+sec   rsa2048/0E1C43C3FB35B6CE 2016-10-10 [SC]
+      16786C85121310443EBE4F4B0E1C43C3FB35B6CE
+uid                [  ultime ] Benoit Tellier <btellier@apache.org>
+ssb   rsa2048/656F789719D65A82 2016-10-10 [E]
+
+benwa@horizon ~ % gpg --armor --export btellier@apache.org
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+mQENBFf7ohoBCAC1W9zAsXl8MNoe7qbps4z/i0rheLWA04WqdbeeIdlw7Vb/k0mn
+HIApWIIjbUYAM2g1SJA21ac+xmZWgYmdRmJ/GDRGlmQmwxvFE1OmyXAvpR7pHumr
+4qVVnbiSNu5+0pQle4AQcY2NeQ/DnqwMkRZWdVT75jRQxVD9Wu1dogQx37j3daKS
+nJaGC5X6sKMEADIJG0eUhw3jrQXARkG6C+HER3/NTpOQMra+/rQ/ma2RsTsdfUVn
+wkdW1MswluzE9XRHKG2q985W+a7f2i86PwHJ9em9aHHYag==
+=vudL
+-----END PGP PUBLIC KEY BLOCK-----
+</code></pre>
+</section>
+
+<section style="top: -348px; display: block;" class="present">
+<h3 data-fragment-index="0">Interacting with others</h3>
+<pre><code>
+# Importing a key
+$ gpg --import key.asc
+
+# Encrypting something 
+$ gpg --output doc.gpg --encrypt --recipient blake@cyb.org doc
+
+# Decrypting something
+$ gpg --output doc --decrypt doc.gpg
+
+# Symetric encryption
+alice% gpg --output doc.gpg --symmetric doc
+Enter passphrase: 
+</code></pre>
+</section>
+
+<section style="top: -348px; display: block;" class="present">
+<h3 data-fragment-index="0">Signing</h3>
+<pre><code>
+# Signing something 
+$ gpg --output doc.sig --sign doc
+
+# Verifying signature (require public key)
+$ gpg --output doc --decrypt doc.sig
+
+# Symetric encryption
+alice% gpg --output doc.gpg --symmetric doc
+Enter passphrase: 
+</code></pre>
+</section>
+
+<section style="top: -348px; display: block;" class="present">
+<h3 data-fragment-index="0">Key servers</h3>
+<pre><code>
+# Sending key
+$ gpg --keyserver certserver.pgp.com --send-key blake@cyb.org
+
+# Find SMB key (you trust him)
+$ gpg --keyserver keyring.debian.org --recv-keys 0xDEADBEEF
+$ gpg --edit-key 0xDEADBEEF
+ > sign
+ > (verification)
+ > (trust level)
+ > quit
+$ gpg --list-sigs 0xDEADBEEF   # verification
+$ gpg --export -a 0xDEADBEEF > someguys.key (exporting the result + send to him)
+
+# Importing a signed key
+$ gpg --import --import-options merge-only mysigned.key
+$ gpg --keyserver keyring.debian.org --send-keys 0xDEADBEEF
+</code></pre>
+</section>
+
+
+<section style="top: -348px; display: block;" class="present">
+<p>Integration with : <ul>
+<li>Mails (enigmail)</li>
+<li>Git</li>
+<li>Etc...</li>
+</ul></p>
+</section>
+
+<section style="top: -84px; display: block;" class="future" hidden="">
+    <h2>Questions?</h2>
+</section>
+
+<!-- $IPT -A INPUT -p all -m conntrack --ctstate ESTABLISHED,RELATED -m comment --comment "Accepter connexions deja etablies" -j ACCEPT -->
+
+        <script src="iptable_files/head.js"></script>
+        <script src="iptable_files/reveal.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Parallax scrolling
+                // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+                // parallaxBackgroundSize: '2100px 900px',
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    // { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+        </script>
+
+    
+
+
+</div><div class="backgrounds"><div class="slide-background present"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div></div><div class="progress" style="display: block;"><span style="width: 0px;"></span></div><aside class="controls" style="display: block;"><div class="navigate-left"></div><div class="navigate-right enabled"></div><div class="navigate-up"></div><div class="navigate-down"></div></aside><div class="slide-number"></div><div class="state-background"></div><div class="pause-overlay"></div></div><script type="text/javascript" src="iptable_files/zoom.js"></script><script type="text/javascript" src="iptable_files/notes.js"></script></body></html>
